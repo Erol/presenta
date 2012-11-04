@@ -88,5 +88,15 @@ describe Presenta do
       assert_equal person.birthdate, presenter.birthday.entity
       refute_respond_to presenter, :birthdate
     end
+
+    it "accepts a name and block" do
+      class << presenter
+        present :fullname do
+          [entity.firstname, entity.middlename, entity.lastname].compact.join(' ')
+        end
+      end
+
+      assert_equal 'Alice In Wonderland', presenter.fullname
+    end
   end
 end
