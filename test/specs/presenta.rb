@@ -113,5 +113,15 @@ describe Presenta do
       assert_instance_of NamePresenter, presenter.fullname
       assert_equal [person.firstname, person.middlename, person.lastname], presenter.fullname.entity
     end
+
+    it "raises an exception if both attribute and block was passed" do
+      assert_raises ArgumentError do
+        class << presenter
+          present :birthday, Value, :birthdate do
+            entity.birthdate
+          end
+        end
+      end
+    end
   end
 end

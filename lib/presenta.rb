@@ -24,7 +24,13 @@ module Presenta
       end
     end
 
-    def present(name, type = Presenta::Primitives::Value, attribute = name, &block)
+    def present(name, type = Presenta::Primitives::Value, attribute = nil, &block)
+      if attribute && block
+        raise ArgumentError, 'attribute and block cannot be passed both'
+      end
+
+      attribute ||= name
+
       define_method name do
         value = if block
                   instance_eval(&block)
