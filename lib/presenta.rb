@@ -4,6 +4,7 @@ module Presenta
   def self.included(base)
     base.send :extend, Extensions
     base.send :include, Inclusions
+    base.send :include, Primitives
   end
 
   module Inclusions
@@ -23,10 +24,17 @@ module Presenta
       end
     end
 
-    def present(name)
+    def present(name, type = Presenta::Primitives::Value)
       define_method name do
-        entity.send(name) if entity
+        value = entity.send(name) if entity
+        value = type.new(value) unless type == Presenta::Primitives::Value
+        value
       end
+    end
+  end
+
+  module Primitives
+    class Value
     end
   end
 end

@@ -49,15 +49,30 @@ describe Presenta do
     assert_equal person, presenter.person
   end
 
-  specify ".present accepts a name" do
-    class << presenter
-      present :firstname
-      present :middlename
-      present :lastname
+  describe ".present" do
+    it "accepts a name" do
+      class << presenter
+        present :firstname
+        present :middlename
+        present :lastname
+      end
+
+      assert_equal person.firstname, presenter.firstname
+      assert_equal person.middlename, presenter.middlename
+      assert_equal person.lastname, presenter.lastname
     end
 
-    assert_equal person.firstname, presenter.firstname
-    assert_equal person.middlename, presenter.middlename
-    assert_equal person.lastname, presenter.lastname
+    it "accepts a name and type/presenter" do
+      class EmailPresenter
+        include Presenta
+      end
+
+      class << presenter
+        present :email, EmailPresenter
+      end
+
+      assert_instance_of EmailPresenter, presenter.email
+      assert_equal person.email, presenter.email.entity
+    end
   end
 end
