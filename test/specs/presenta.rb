@@ -74,5 +74,19 @@ describe Presenta do
       assert_instance_of EmailPresenter, presenter.email
       assert_equal person.email, presenter.email.entity
     end
+
+    it "accepts a name, type/presenter and attribute" do
+      class DatePresenter
+        include Presenta
+      end
+
+      class << presenter
+        present :birthday, DatePresenter, :birthdate
+      end
+
+      assert_instance_of DatePresenter, presenter.birthday
+      assert_equal person.birthdate, presenter.birthday.entity
+      refute_respond_to presenter, :birthdate
+    end
   end
 end

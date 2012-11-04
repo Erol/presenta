@@ -24,9 +24,9 @@ module Presenta
       end
     end
 
-    def present(name, type = Presenta::Primitives::Value)
+    def present(name, type = Presenta::Primitives::Value, attribute = name)
       define_method name do
-        value = entity.send(name) if entity
+        value = entity.send(attribute) if entity
         value = type.new(value) unless type == Presenta::Primitives::Value
         value
       end
