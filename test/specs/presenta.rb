@@ -98,5 +98,20 @@ describe Presenta do
 
       assert_equal 'Alice In Wonderland', presenter.fullname
     end
+
+    it "accepts a name, type/presenter and block" do
+      class NamePresenter
+        include Presenta
+      end
+
+      class << presenter
+        present :fullname, NamePresenter do
+          [entity.firstname, entity.middlename, entity.lastname]
+        end
+      end
+
+      assert_instance_of NamePresenter, presenter.fullname
+      assert_equal [person.firstname, person.middlename, person.lastname], presenter.fullname.entity
+    end
   end
 end
