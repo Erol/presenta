@@ -1,5 +1,7 @@
 require 'presenta/version'
 
+require 'facets/kernel/constant'
+
 module Presenta
   def self.included(base)
     base.send :extend, Extensions
@@ -28,6 +30,8 @@ module Presenta
       if attribute && block
         raise ArgumentError, 'attribute and block cannot be passed both'
       end
+
+      type = constant(type) if type.is_a? Symbol
 
       attribute ||= name
 

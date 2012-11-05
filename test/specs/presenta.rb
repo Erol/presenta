@@ -123,5 +123,20 @@ describe Presenta do
         end
       end
     end
+
+    describe "type" do
+      it "can be a symbol" do
+        class EmailPresenter
+          include Presenta
+        end
+
+        class << presenter
+          present :email, :EmailPresenter
+        end
+
+        assert_instance_of EmailPresenter, presenter.email
+        assert_equal person.email, presenter.email.entity
+      end
+    end
   end
 end
