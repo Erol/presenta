@@ -47,6 +47,23 @@ describe Presenta do
     assert_equal person, Presenter.new(person).entity
   end
 
+  specify ".new accepts a hash" do
+    hash = {firstname: person.firstname, middlename: person.middlename, lastname: person.lastname}
+    mash = Hashie::Mash.new hash
+
+    presenter = Presenter.new hash
+
+    class << presenter
+      present :firstname
+      present :middlename
+      present :lastname
+    end
+
+    assert_equal person.firstname, presenter.firstname
+    assert_equal person.middlename, presenter.middlename
+    assert_equal person.lastname, presenter.lastname
+  end
+
   specify ".subject defines a subject" do
     class << presenter
       subject :person

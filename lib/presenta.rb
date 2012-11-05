@@ -1,6 +1,7 @@
 require 'presenta/version'
 
 require 'facets/kernel/constant'
+require 'hashie/mash'
 
 module Presenta
   def self.included(base)
@@ -11,7 +12,11 @@ module Presenta
 
   module Inclusions
     def initialize(entity)
-      @entity = entity
+      @entity = if entity.is_a? Hash
+                  Hashie::Mash.new entity
+                else
+                  entity
+                end
     end
 
     def entity

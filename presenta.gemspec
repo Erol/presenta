@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Presenta::VERSION
 
   gem.add_dependency 'facets'
+  gem.add_dependency 'hashie'
 
   gem.add_development_dependency 'minitest'
 end
