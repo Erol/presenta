@@ -40,11 +40,11 @@ module Presenta
         raise ArgumentError, 'attribute and block cannot be passed both'
       end
 
-      type = constant(type) if type.is_a? Symbol
-
       attribute ||= name
 
       define_method name do
+        type = constant(type) if type.is_a? Symbol
+
         value = if block
                   instance_eval(&block)
                 else

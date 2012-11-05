@@ -148,13 +148,15 @@ describe Presenta do
     end
 
     describe "type" do
-      it "can be a symbol" do
-        class EmailPresenter
-          include Presenta
-        end
+      it "can be a symbol and constantized only on demand" do
+        Object.send :remove_const, :EmailPresenter if defined? EmailPresenter
 
         class << presenter
           present :email, :EmailPresenter
+        end
+
+        class EmailPresenter
+          include Presenta
         end
 
         assert_instance_of EmailPresenter, presenter.email
