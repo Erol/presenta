@@ -43,6 +43,8 @@ module Presenta
                 end
         if type.is_a? Array
           types = type.first
+          types = constant(types) if types.is_a? Symbol
+
           value = value.map do |object|
             types == Presenta::Primitives::Value ? object : types.new(object)
           end

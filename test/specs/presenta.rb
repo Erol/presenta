@@ -155,6 +155,22 @@ describe Presenta do
           assert_includes person.nicknames, nickname.entity
         end
       end
+
+      it "can be an array of symbols" do
+        class NamePresenter
+          include Presenta
+        end
+
+        class << presenter
+          present :nicknames, Array[:NamePresenter]
+        end
+
+        assert_instance_of Array, presenter.nicknames
+        presenter.nicknames.each do |nickname|
+          assert_instance_of NamePresenter, nickname
+          assert_includes person.nicknames, nickname.entity
+        end
+      end
     end
   end
 end
