@@ -92,11 +92,11 @@ describe Presenta do
     it "accepts a name and block" do
       class << presenter
         present :fullname do
-          [entity.firstname, entity.middlename, entity.lastname].compact.join(' ')
+          [entity.firstname, entity.middlename, entity.lastname]
         end
       end
 
-      assert_equal 'Alice In Wonderland', presenter.fullname
+      assert_equal [person.firstname, person.middlename, person.lastname], presenter.fullname
     end
 
     it "accepts a name, type/presenter and block" do
