@@ -20,6 +20,10 @@ module Presenta
   end
 
   module Extensions
+    def [](entity)
+      new entity
+    end
+
     def subject(name)
       define_method name do
         entity

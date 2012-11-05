@@ -39,8 +39,12 @@ describe Presenta do
     Presenter.new person
   end
 
+  specify ".[] assigns an entity" do
+    assert person, Presenter[person].entity
+  end
+
   specify ".new assigns an entity" do
-    assert_equal person, presenter.entity
+    assert_equal person, Presenter.new(person).entity
   end
 
   specify ".subject defines a subject" do
