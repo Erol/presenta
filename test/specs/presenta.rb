@@ -7,6 +7,7 @@ describe Presenta do
         attr_accessor :firstname
         attr_accessor :middlename
         attr_accessor :lastname
+        attr_accessor :nicknames
 
         attr_accessor :email
 
@@ -25,6 +26,7 @@ describe Presenta do
     person.firstname = 'Alice'
     person.middlename = 'In'
     person.lastname = 'Wonderland'
+    person.nicknames = ['Alice', 'Wonder']
 
     person.email = 'alice@wonderland'
 
@@ -136,6 +138,22 @@ describe Presenta do
 
         assert_instance_of EmailPresenter, presenter.email
         assert_equal person.email, presenter.email.entity
+      end
+
+      it "can be an array of classes" do
+        class NamePresenter
+          include Presenta
+        end
+
+        class << presenter
+          present :nicknames, Array[NamePresenter]
+        end
+
+        assert_instance_of Array, presenter.nicknames
+        presenter.nicknames.each do |nickname|
+          assert_instance_of NamePresenter, nickname
+          assert_includes person.nicknames, nickname.entity
+        end
       end
     end
   end

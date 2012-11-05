@@ -41,8 +41,14 @@ module Presenta
                 else
                   entity.send(attribute) if entity
                 end
-
-        value = type.new(value) unless type == Presenta::Primitives::Value
+        if type.is_a? Array
+          types = type.first
+          value = value.map do |object|
+            types == Presenta::Primitives::Value ? object : types.new(object)
+          end
+        else
+          value = type.new(value) unless type == Presenta::Primitives::Value
+        end
         value
       end
     end
