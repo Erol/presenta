@@ -43,11 +43,37 @@ describe Presenta do
     assert person, Presenter[person].entity
   end
 
+  specify ".[] accepts an entity hash" do
+    hash = {firstname: person.firstname, middlename: person.middlename, lastname: person.lastname}
+    mash = Hashie::Mash.new hash
+
+    presenter = Presenter[hash]
+
+    class << presenter
+      present :firstname
+      present :middlename
+      present :lastname
+    end
+
+    assert_equal person.firstname, presenter.firstname
+    assert_equal person.middlename, presenter.middlename
+    assert_equal person.lastname, presenter.lastname
+  end
+
+  specify ".[] accepts a settings hash" do
+    settings = {format: 'Format', option: 'Option'}
+
+    presenter = Presenter[person, settings]
+
+    assert_equal person, presenter.entity
+    assert_equal settings, presenter.settings
+  end
+
   specify ".new assigns an entity" do
     assert_equal person, Presenter.new(person).entity
   end
 
-  specify ".new accepts a hash" do
+  specify ".new accepts an entity hash" do
     hash = {firstname: person.firstname, middlename: person.middlename, lastname: person.lastname}
     mash = Hashie::Mash.new hash
 
@@ -62,6 +88,15 @@ describe Presenta do
     assert_equal person.firstname, presenter.firstname
     assert_equal person.middlename, presenter.middlename
     assert_equal person.lastname, presenter.lastname
+  end
+
+  specify ".new accepts a settings hash" do
+    settings = {format: 'Format', option: 'Option'}
+
+    presenter = Presenter.new person, settings
+
+    assert_equal person, presenter.entity
+    assert_equal settings, presenter.settings
   end
 
   specify ".subject defines a subject" do

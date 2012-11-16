@@ -11,22 +11,27 @@ module Presenta
   end
 
   module Inclusions
-    def initialize(entity)
+    def initialize(entity, settings = {})
       @entity = if entity.is_a? Hash
                   Hashie::Mash.new entity
                 else
                   entity
                 end
+      @settings = settings
     end
 
     def entity
       @entity
     end
+
+    def settings
+      @settings
+    end
   end
 
   module Extensions
-    def [](entity)
-      new entity
+    def [](entity, settings = {})
+      new entity, settings
     end
 
     def subject(name)
